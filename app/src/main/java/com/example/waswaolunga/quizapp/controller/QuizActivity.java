@@ -7,8 +7,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.waswaolunga.quizapp.R;
+
+/**
+ * The QuizActivity class describes the activity object
+ * for the Quiz App
+ *
+ * @author Waswa Olunga
+ */
 
 public class QuizActivity extends AppCompatActivity {
 
