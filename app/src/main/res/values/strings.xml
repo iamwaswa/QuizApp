@@ -3,4 +3,6 @@
     <string name="quiz_question">The largest fruit is a pineapple</string>
     <string name="true_btn_content">TRUE</string>
     <string name="false_btn_content">FALSE</string>
+    <string name="correct_response">Correct!</string>
+    <string name="incorrect_response">Incorrect!</string>
 </resources>
