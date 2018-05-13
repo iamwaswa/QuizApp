@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">QuizApp</string>
-    <string name="quiz_question">The largest fruit is a pineapple</string>
+    <string name="init_question">Click Next to reveal a question</string>
+    <string name="fruit_question">The largest fruit is a pineapple</string> <!-- true -->
+    <string name="toilet_question">Most toilets flush in B flat</string> <!-- false -->
+    <string name="america_question">Approximately 40,000 Americans are injured by toilets each year</string> <!-- true -->
+    <string name="sneeze_question">It is possible to sneeze with your eyes open</string> <!-- false -->
     <string name="true_btn_content">TRUE</string>
     <string name="false_btn_content">FALSE</string>
     <string name="correct_response">Correct!</string>
     <string name="incorrect_response">Incorrect!</string>
+    <string name="next_btn_content">Next</string>
 </resources>
