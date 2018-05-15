@@ -1,6 +1,5 @@
 package com.example.waswaolunga.quizapp.model;
 
-
 /**
  * The Question class describes
  * the list of questions to ask
@@ -11,14 +10,14 @@ package com.example.waswaolunga.quizapp.model;
 
 public class Question {
 
-    private String questionContent;
+    private int questionResourceID;
 
-    public Question(String questionContent) {
-        this.questionContent = questionContent;
+    public Question(int questionResourceID) {
+        this.questionResourceID = questionResourceID;
     }
 
-    public String getQuestionContent() {
-        return questionContent;
+    public int getQuestionResourceID() {
+        return questionResourceID;
     }
 
 }

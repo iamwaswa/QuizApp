@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.waswaolunga.quizapp.R;
+
 /**
  * The Response class describes
  * the functionality related to the true and false
@@ -17,9 +19,9 @@ import android.widget.Toast;
 
 public class Response {
 
-    private final String TAG = "Quiz App";
-    private final int X_OFFSET = 0;
-    private final int Y_OFFSET = 500;
+    private static final String TAG = "Quiz App";
+    private static final int X_OFFSET = 0;
+    private static final int Y_OFFSET = 500;
 
     private Context appContext;
 
@@ -28,19 +30,7 @@ public class Response {
         this.appContext = appContext;
     }
 
-
-    public void addResponseButtonFunctionality(Button btn, final String RESPONSE) {
-
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                outputButtonResponse(RESPONSE);
-            }
-        });
-    }
-
-    private void outputButtonResponse(String response) {
+    public static void outputButtonResponse(Context appContext, String response) {
         Toast toast = Toast.makeText(appContext, response, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, X_OFFSET, Y_OFFSET);
         toast.show();
