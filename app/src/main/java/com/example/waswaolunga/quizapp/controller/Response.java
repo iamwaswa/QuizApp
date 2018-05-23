@@ -1,13 +1,9 @@
-package com.example.waswaolunga.quizapp.model;
+package com.example.waswaolunga.quizapp.controller;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
-import com.example.waswaolunga.quizapp.R;
 
 /**
  * The Response class describes
@@ -22,13 +18,6 @@ public class Response {
     private static final String TAG = "Quiz App";
     private static final int X_OFFSET = 0;
     private static final int Y_OFFSET = 500;
-
-    private Context appContext;
-
-
-    public Response(Context appContext) {
-        this.appContext = appContext;
-    }
 
     public static void outputButtonResponse(Context appContext, String response) {
         Toast toast = Toast.makeText(appContext, response, Toast.LENGTH_SHORT);

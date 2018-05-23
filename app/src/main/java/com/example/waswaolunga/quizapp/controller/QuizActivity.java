@@ -2,13 +2,12 @@ package com.example.waswaolunga.quizapp.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.waswaolunga.quizapp.R;
 import com.example.waswaolunga.quizapp.model.Question;
-import com.example.waswaolunga.quizapp.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ public class QuizActivity extends AppCompatActivity {
     private static final int INIT_QUESTION = -1;
     private static final String INIT_MESSAGE = "Click Next";
 
-    private Response response;
     private List<Question> questions;
     private TextView questionTextView;
     private int currentQuestionIndex = -1;
@@ -40,8 +38,6 @@ public class QuizActivity extends AppCompatActivity {
 
         questionTextView = (TextView) findViewById(R.id.question_text);
         questionTextView.setText(R.string.init_question);
-
-        response = new Response(getApplicationContext());
         
         Button trueBtn = (Button) findViewById(R.id.true_btn);
         addResponseButtonFunctionality(trueBtn, R.string.correct_response, R.string.incorrect_response);
@@ -49,8 +45,11 @@ public class QuizActivity extends AppCompatActivity {
         Button falseBtn = (Button) findViewById(R.id.false_btn);
         addResponseButtonFunctionality(falseBtn, R.string.incorrect_response, R.string.correct_response);
 
-        Button nextBtn = (Button) findViewById(R.id.next_btn);
+        ImageButton nextBtn = (ImageButton) findViewById(R.id.next_btn);
         addNextButtonFunctionality(nextBtn);
+
+        ImageButton previousBtn = (ImageButton) findViewById(R.id.previous_btn);
+        addPreviousButtonFunctionality(previousBtn);
     }
 
     private void addQuestions(){
@@ -63,21 +62,42 @@ public class QuizActivity extends AppCompatActivity {
         questions.add(new Question(R.string.sneeze_question));
     }
 
-    public void addNextButtonFunctionality(Button nextBtn) {
+    public void addNextButtonFunctionality(ImageButton nextBtn) {
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                updateQuestion();
+                advanceToNextQuestion();
             }
         });
     }
 
-    private void updateQuestion() {
+    private void advanceToNextQuestion() {
         currentQuestionIndex = (currentQuestionIndex + 1) % questions.size();
+        updateQuestion();
+    }
+
+    private void updateQuestion() {
         int questionResourceID = questions.get(currentQuestionIndex).getQuestionResourceID();
         questionTextView.setText(questionResourceID);
+    }
+
+    public void addPreviousButtonFunctionality(ImageButton previousBtn){
+
+        previousBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                reverseToPreviousQuestion();
+            }
+        });
+
+    }
+
+    private void reverseToPreviousQuestion() {
+        currentQuestionIndex = (currentQuestionIndex - 1 < 0) ? questions.size() - 1 : currentQuestionIndex - 1;
+        updateQuestion();
     }
 
     public void addResponseButtonFunctionality(Button btn, final int correctResponseID,
@@ -91,7 +111,7 @@ public class QuizActivity extends AppCompatActivity {
                     Response.outputButtonResponse(getApplicationContext(), INIT_MESSAGE);
                 } else {
                     findAppropriateResponse(correctResponseID, incorrectResponseID);
-                    updateQuestion();
+                    advanceToNextQuestion();
                 }
             }
         });
