@@ -1,5 +1,6 @@
 package com.example.waswaolunga.quizapp.controller;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,12 +22,11 @@ import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private static final int INIT_QUESTION = -1;
-    private static final String INIT_MESSAGE = "Click Next";
+    public static final int INIT_QUESTION = -1;
 
     private List<Question> questions;
     private TextView questionTextView;
-    private int currentQuestionIndex = -1;
+    private Response response = new Response(INIT_QUESTION);
 
 
     @Override
@@ -40,10 +40,9 @@ public class QuizActivity extends AppCompatActivity {
         questionTextView.setText(R.string.init_question);
         
         Button trueBtn = (Button) findViewById(R.id.true_btn);
-        addResponseButtonFunctionality(trueBtn, R.string.correct_response, R.string.incorrect_response);
-
         Button falseBtn = (Button) findViewById(R.id.false_btn);
-        addResponseButtonFunctionality(falseBtn, R.string.incorrect_response, R.string.correct_response);
+
+        addResponseButtonFunctionality(trueBtn, falseBtn);
 
         ImageButton nextBtn = (ImageButton) findViewById(R.id.next_btn);
         addNextButtonFunctionality(nextBtn);
@@ -62,80 +61,48 @@ public class QuizActivity extends AppCompatActivity {
         questions.add(new Question(R.string.sneeze_question));
     }
 
-    public void addNextButtonFunctionality(ImageButton nextBtn) {
+    public void addResponseButtonFunctionality(Button trueBtn, Button falseBtn) {
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+        final Context context = QuizActivity.this;
 
+        trueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                advanceToNextQuestion();
+                response.respondToAnswer(context, questions, questionTextView,
+                                         getString(R.string.correct_response),
+                                         getString(R.string.incorrect_response));
+            }
+        });
+
+        falseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                response.respondToAnswer(context, questions, questionTextView,
+                                         getString(R.string.incorrect_response),
+                                         getString(R.string.correct_response));
             }
         });
     }
 
-    private void advanceToNextQuestion() {
-        currentQuestionIndex = (currentQuestionIndex + 1) % questions.size();
-        updateQuestion();
-    }
+    public void addNextButtonFunctionality(ImageButton nextBtn) {
 
-    private void updateQuestion() {
-        int questionResourceID = questions.get(currentQuestionIndex).getQuestionResourceID();
-        questionTextView.setText(questionResourceID);
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                response.advanceToNextQuestion(questions, questionTextView);
+            }
+        });
     }
 
     public void addPreviousButtonFunctionality(ImageButton previousBtn){
 
         previousBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                reverseToPreviousQuestion();
+                response.reverseToPreviousQuestion(questions, questionTextView);
             }
         });
 
-    }
-
-    private void reverseToPreviousQuestion() {
-        currentQuestionIndex = (currentQuestionIndex - 1 < 0) ? questions.size() - 1 : currentQuestionIndex - 1;
-        updateQuestion();
-    }
-
-    public void addResponseButtonFunctionality(Button btn, final int correctResponseID,
-                                               final int incorrectResponseID) {
-
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (currentQuestionIndex == INIT_QUESTION){
-                    Response.outputButtonResponse(getApplicationContext(), INIT_MESSAGE);
-                } else {
-                    findAppropriateResponse(correctResponseID, incorrectResponseID);
-                    advanceToNextQuestion();
-                }
-            }
-        });
-    }
-
-    private void findAppropriateResponse(int correctResponseID, int incorrectResponseID) {
-
-        switch (questions.get(currentQuestionIndex).getQuestionResourceID()) {
-
-            case R.string.fact_question:
-            case R.string.fruit_question:
-                Response.outputButtonResponse(getApplicationContext(),
-                        getString(correctResponseID));
-                break;
-
-            case R.string.toilet_question:
-            case R.string.sneeze_question:
-                Response.outputButtonResponse(getApplicationContext(),
-                        getString(incorrectResponseID));
-                break;
-
-            default:
-                throw new RuntimeException("Not a valid question");
-        }
     }
 
 }
