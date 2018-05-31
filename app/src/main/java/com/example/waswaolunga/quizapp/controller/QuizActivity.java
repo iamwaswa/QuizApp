@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.waswaolunga.quizapp.R;
+import com.example.waswaolunga.quizapp.controller.dependency.classes.Response;
 import com.example.waswaolunga.quizapp.model.Question;
 
 import java.util.ArrayList;
@@ -41,14 +42,10 @@ public class QuizActivity extends AppCompatActivity {
         
         Button trueBtn = (Button) findViewById(R.id.true_btn);
         Button falseBtn = (Button) findViewById(R.id.false_btn);
-
-        addResponseButtonFunctionality(trueBtn, falseBtn);
-
         ImageButton nextBtn = (ImageButton) findViewById(R.id.next_btn);
-        addNextButtonFunctionality(nextBtn);
-
         ImageButton previousBtn = (ImageButton) findViewById(R.id.previous_btn);
-        addPreviousButtonFunctionality(previousBtn);
+
+        addResponseButtonFunctionality(trueBtn, falseBtn, previousBtn, nextBtn);
     }
 
     private void addQuestions(){
@@ -61,7 +58,8 @@ public class QuizActivity extends AppCompatActivity {
         questions.add(new Question(R.string.sneeze_question));
     }
 
-    public void addResponseButtonFunctionality(Button trueBtn, Button falseBtn) {
+    public void addResponseButtonFunctionality(Button trueBtn, Button falseBtn,
+                                               ImageButton previousBtn, ImageButton nextBtn) {
 
         final Context context = QuizActivity.this;
 
@@ -82,19 +80,6 @@ public class QuizActivity extends AppCompatActivity {
                                          getString(R.string.correct_response));
             }
         });
-    }
-
-    public void addNextButtonFunctionality(ImageButton nextBtn) {
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                response.advanceToNextQuestion(questions, questionTextView);
-            }
-        });
-    }
-
-    public void addPreviousButtonFunctionality(ImageButton previousBtn){
 
         previousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +88,12 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                response.advanceToNextQuestion(questions, questionTextView);
+            }
+        });
     }
 
 }

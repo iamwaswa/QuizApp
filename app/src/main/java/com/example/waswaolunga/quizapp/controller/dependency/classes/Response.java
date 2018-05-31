@@ -1,4 +1,4 @@
-package com.example.waswaolunga.quizapp.controller;
+package com.example.waswaolunga.quizapp.controller.dependency.classes;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.waswaolunga.quizapp.R;
+import com.example.waswaolunga.quizapp.controller.QuizActivity;
 import com.example.waswaolunga.quizapp.model.Question;
 
 import java.util.List;
