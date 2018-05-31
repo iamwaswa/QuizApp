@@ -33,6 +33,14 @@ public class Response {
         this.currentQuestionIndex = currentQuestionIndex;
     }
 
+    public void setCurrentQuestionIndex(int currentQuestionIndex) {
+        this.currentQuestionIndex = currentQuestionIndex;
+    }
+
+    public int getCurrentQuestionIndex() {
+        return currentQuestionIndex;
+    }
+
     public void respondToAnswer(Context context, List<Question> questions, TextView questionTextView,
                                 String correctResponse, String incorrectResponse) {
 

@@ -24,6 +24,8 @@ import java.util.List;
 public class QuizActivity extends AppCompatActivity {
 
     public static final int INIT_QUESTION = -1;
+    private static String QUESTION_KEY_INDEX = "com.example.waswaolunga.quizapp.controller - Current Question Key";
+    private static final String TAG = "QuizActivity";
 
     private List<Question> questions;
     private TextView questionTextView;
@@ -35,17 +37,75 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        if (savedInstanceState != null){
+            int currentQuestionIndex = savedInstanceState.getInt(QUESTION_KEY_INDEX, INIT_QUESTION);
+            response.setCurrentQuestionIndex(currentQuestionIndex);
+        }
+
         addQuestions();
 
         questionTextView = (TextView) findViewById(R.id.question_text);
-        questionTextView.setText(R.string.init_question);
-        
+
+        int currentQuestionIndex = response.getCurrentQuestionIndex();
+        if (currentQuestionIndex != INIT_QUESTION) {
+            questionTextView.setText(questions.get(currentQuestionIndex).getQuestionResourceID());
+        } else {
+            questionTextView.setText(R.string.init_question);
+        }
+
         Button trueBtn = (Button) findViewById(R.id.true_btn);
         Button falseBtn = (Button) findViewById(R.id.false_btn);
         ImageButton nextBtn = (ImageButton) findViewById(R.id.next_btn);
         ImageButton previousBtn = (ImageButton) findViewById(R.id.previous_btn);
 
         addResponseButtonFunctionality(trueBtn, falseBtn, previousBtn, nextBtn);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        String currentQuestion = questionTextView.getText().toString();
+        String question;
+
+        if (!currentQuestion.equals(getString(R.string.init_question))){
+
+            int questionNumber = -1;
+            do {
+
+                questionNumber++;
+                question = getString(questions.get(questionNumber).getQuestionResourceID());
+
+            } while (!question.equals(currentQuestion));
+
+            int currentQuestionIndex = questionNumber;
+
+            savedInstanceState.putInt(QUESTION_KEY_INDEX, currentQuestionIndex);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void addQuestions(){
